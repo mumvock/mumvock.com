@@ -1,0 +1,15 @@
+:host {
+    align-items: flex-end;
+    flex-wrap: wrap;
+    display: flex;
+
+    @media (min-width: 1200px) {
+        height: 1.5rem; // 24px if root 16px
+    }
+
+    user-select: none;
+
+    img {
+        margin-right: 1rem;
+    }
+}

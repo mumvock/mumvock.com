@@ -1,0 +1,9 @@
+:host {
+    border: 1px solid var(--dark);
+    border-right: 1px solid var(--light);
+    border-bottom: 1px solid var(--light);
+
+    @media (max-width: 768px) {
+        width: 100%;
+    }
+}

@@ -1,0 +1,19 @@
+<span class="me-auto">
+    <ng-content></ng-content>
+</span>
+
+<button
+    *ngIf="maximizeButton"
+    titleBarButton
+    #maxMinButton
+    [title]="getMaximizeButtonTitle()"
+    (click)="panelService.maximizePanel(alias)">
+    &#9633;
+</button>
+<button
+    #closeButton
+    titleBarButton
+    title="Fechar"
+    (click)="panelService.closePanel(alias)">
+    &#x2715;
+</button>

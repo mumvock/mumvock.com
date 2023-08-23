@@ -1,0 +1,8 @@
+:host {
+    background-color: var(--base-color-overlay-alpha);
+    user-select: none;
+
+    @media (max-width: 768px) {
+        margin-top: .1rem;
+    }
+}

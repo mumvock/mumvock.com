@@ -1,0 +1,19 @@
+<div panel alias="pages" [resizable]="true">
+    <div titleBar [maximizeButton]="true">
+        Páginas - mumvock.com
+    </div>
+
+    <nav nav>
+        <ul navList>
+            <li navListItem><a navListAnchor routerLinkActive="active" [routerLink]="PAGES_ROUTES.about">Sobre</a></li>
+            <li navListItem><a navListAnchor routerLinkActive="active" [routerLink]="PAGES_ROUTES.news" class="disabled">Atualizações</a></li>
+            <li navListItem><a navListAnchor routerLinkActive="active" class="disabled">Tutoriais</a></li>
+            <li navListItem><a navListAnchor routerLinkActive="active" class="disabled">Estatísticas</a></li>
+            <li navListItem><a navListAnchor routerLinkActive="active" class="disabled">Sugestões</a></li>
+        </ul>
+    </nav>
+
+    <div container>
+        <router-outlet></router-outlet>
+    </div>
+</div>

@@ -1,0 +1,182 @@
+<div class="gradient">
+    <p><strong>Atualmente o website e o servidor estão em fase final de desenvolvimento.</strong></p>
+    <span>Estreia estimada do servidor: <em><time datetime="2023-09-01">01/09/2023</time> horário não confirmando</em>.</span>
+</div>
+
+<hr>
+
+<div id="about-intro" class="d-flex flex-wrap">
+    <div class="flex-1">
+        <h1>{{ ip }}</h1>
+        <p>{{ slogan }}</p>
+    </div>
+
+    <div class="d-flex border-left flex-1 align-items-center">
+        <p>
+            IP:<br>
+            <mark>{{ ip }}</mark>
+        </p>
+        <button type="button" title="Copiar" class="ms-1 mt-2" [cdkCopyToClipboard]="ip">&#x2398;</button><br>
+    </div>
+</div>
+
+<p class="my-5 col-xl-6 col-lg-9">
+    Não incentivamos pirataria,
+    <a href="https://store.steampowered.com/app/10/CounterStrike/" target="_blank">
+    obtenha uma cópia autêntica do counter-strike através da Steam</a>.<wbr> Desta forma você estará mais seguro
+    além de desfrutar das última atualizações disponibilizadas pela Valve.
+</p>
+
+<!-- <figure thumbnail>
+    <img imageLoader thumbnailImg [src]="assetsImagesPath + 'gabe_is_watching_you.jpg'" alt="Gabe's watching you">
+    <figcaption thumbnailDesc>
+        <small class="text-body-secondary">Gabe's watching you</small>
+    </figcaption>
+</figure> -->
+
+<section>
+    <h2>Cansado de servidores poluídos e bugados?</h2>
+    <p>
+        Não é difícil se deparar com servidores de counter-strike (1.6) repletos de plugins e mods que
+        além de demorar para baixar, muitas vezes são invasivos, malfeitos e poluem sua tela. Um milhão de mensagens
+        sendo disparadas no chat por minuto, sons e até músicas atropelando umas às outras, enfim... Foi observando isso
+        que Mumvock, um jogador casual de 4FUN, criou o <em>{{ ip }}</em> buscando fornecer simplicidade, qualidade e obviamente diversão.
+    </p>
+</section>
+
+<section class="mt-5">
+    <h2>Mapas</h2>
+
+    <!-- <p>
+        Contamos com uma lista de mapas clássicas do 4FUN e estamos abertos a sugestões.
+    </p> -->
+
+    <div thumbnailContainer [imagesDetails]="maps" class="mt-4">
+        <figure thumbnail *ngFor="let map of maps">
+            <img imageLoader thumbnailImg [src]="map.thumbnailSrc" [alt]="map.alt" [title]="map.title">
+            <figcaption *ngIf="map?.description as desc" thumbnailDesc>
+                {{ desc.primary }}
+                <small *ngIf="desc.secondary as sec" class="text-body-secondary">
+                    {{ sec }}
+                </small>
+            </figcaption>
+        </figure>
+    </div>
+</section>
+
+<section class="mt-5">
+    <h2>Livre de Admin Slowhacking malicioso</h2>
+    <h4 class="mt-4">O que é slowhacking?</h4>
+    <p>
+        <q cite="https://developer.valvesoftware.com/wiki/Admin_Slowhacking">Admin Slowhacking
+        <i>(simplesmente chamado "Slowhack" ou "SH")</i>
+        refere-se a um administrador ou o próprio servidor alterando maliciosamente os arquivos de configuração do
+        counter-strike de um jogador ou executando comandos prejudiciais para experiência do jogador.</q><br>
+        Por exemplo:
+    </p>
+    <ul style="list-style: decimal;">
+        <li>Alteração dos atalhos de teclado</li>
+        <li>Itens do menu principal reconfigurados</li>
+        <li>Alteração no limite de FPS</li>
+        <li>Fechamento do jogo</li>
+    </ul>
+</section>
+
+<hr>
+
+<section>
+    <h2>Sistemas (plugins)</h2>
+    <p>
+        Cada plugin implementado teve seu código fonte reprogramado visando maior performance e melhor funcionamento. Uma boa parcela dos plugins
+        são de criação própria tendo seu código fonte exclusivo para este servidor.
+    </p>
+
+    <h4>Multilingual</h4>
+    <p>
+        O servidor foi totalmente traduzido para Inglês, Português e Espanhol. O menu de línguas pode ser
+        acessado através do comando <kbd>lang</kbd>.
+    </p>
+
+    <h4>Rock the vote</h4>
+    <p>
+        Apesar dos mapas não terem nenhum tempo determinado para acabar, os jogadores podem votar para alterar
+        de mapa através do comando <kbd>rtv</kbd> ou <kbd>rockthevote</kbd>.
+    </p>
+
+    <h4>Estatísticas</h4>
+    <p>
+        Classificação e estatísticas da performance dos jogadores acessíveis por múltiplos comandos:
+    </p>
+
+    <div id="stats" class="d-flex flex-wrap my-5">
+        <ul class="small-list flex-1">
+            <li><kbd>stats</kbd>     - Exibe sua classificação e estatísticas (MOTD)</li>
+            <li><kbd>statsmenu</kbd> - Abre menu de estatísticas (menu/MOTD)</li>
+            <li><kbd>rank</kbd>      - Exibe sua classificação (HUD/console)</li>
+            <li><kbd>ranknife</kbd>  - Exibe sua classificação de facas (HUD/console)</li>
+            <li><kbd>top15</kbd>     - Exibe TOP 15 melhores jogadores (MOTD)</li>
+            <li><kbd>top15k</kbd>    - Exibe TOP 15 melhores jogadores na faca (MOTD)</li>
+        </ul>
+        <div class="d-flex border-left flex-1 ps-md-3 pt-4 pt-md-0">
+            <p>
+                Para os que gostam de se exibir, o melhor jogador da partida aparece no final de cada partida juntamente
+                com o jogador que causou o maior dano.
+            </p>
+            <img imageLoader thumbnailImg [src]="assetsImagesPath + 'gifs/mvp.gif'" alt="Demonstração MVP">
+        </div>
+    </div>
+    <p><i>[futuramente <u>TOP 15</u> e <u>TOP 15 Facas</u> também estarão disponíveis aqui no site]</i></p>
+
+    <h4>Anunciador de kills em sequências ao estilo DotA 2 <mark>EXCLUSIVO</mark></h4>
+
+    <p>
+        Os assassinos impiedosos que matam vários em sequência são anunciados para todo mundo ver em tela e em áudio
+        seguindo o mesmo estilo do DotA 2. Além disso, alguns eventos disparam áudio de memes que tornam a experiência
+        muito cômica. Ambos os sistemas foram desenvolvidos para que cada áudio ocorra sequencialmente de maneira
+        que um não atropele o outro e nem fique saturado de áudios repetitivos.
+    </p>
+
+    <p>
+        Todos os áudios disparados em eventos podem ser desativados com o comando <kbd>sounds</kbd>, eventos em tela com
+        <kbd>hudevents</kbd>, já as estatísticas automáticas em tela podem ser desativadas com <kbd>hudstats</kbd>.
+    </p>
+
+    <h4>Votação para partidas apenas faca <mark>EXCLUSIVO</mark></h4>
+
+    <p>
+        Através do comando <kbd>voteknife</kbd> o jogador pode iniciar uma votação para partidas em que todos jogarão
+        apenas com faca. Desta forma, caso a maioria concorde, acontecerá uma sequência pré determinada de partidas em
+        que os açougueiros de plantão terão a oportunidade de representar.
+    </p>
+
+    <div id="hit-mark" class="d-flex mt-5 mb-4">
+        <img imageLoader thumbnailImg [src]="assetsImagesPath + 'gifs/hit_mark.gif'" alt="Demonstração marca de acerto" class="me-md-3">
+        <div>
+            <h4 class="mt-0">Marca de acerto na tela <mark>EXCLUSIVO</mark></h4>
+            <p>
+                Para acompanhar um pouco a tendência dos jogos de FPS, os tiros que acertam os inimigos são demonstrados
+                em volta da sua mira.
+            </p>
+        </div>
+    </div>
+
+    <h4>Chat fantasma</h4>
+
+    <p>
+        Uma vez que a proposta do servidor é 4FUN, os vivos falam com os mortos e vice-versa, seja por chat ou por voz.
+    </p>
+
+    <h4>Duelo de facas</h4>
+
+    <p>
+        Ao final de cada partida, quando resta apenas um jogador de cada equipe, é possível convidar o adversário para
+        um duelo de facas. Basta "riscar" três vezes qualquer parede (ao estilo clássico do CS) e o adversário poderá
+        escolher aceitar ou recusar o duelo. Com o duelo iniciado, ambos jogadores serão teletransportados para
+        próximo um do outro e terão de se resolver na faca.
+    </p>
+
+    <h4>
+        Existem também muitos outros plugins/sistemas implementados voltados principalmente para administração e
+        qualidade da experiência dos jogadores.
+    </h4>
+</section>

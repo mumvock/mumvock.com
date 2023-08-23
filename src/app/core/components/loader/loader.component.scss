@@ -1,0 +1,16 @@
+:host {
+    background-color: var(--overlay-color);
+    bottom: 0;
+    color: orange;
+    display: grid;
+    font-size: 14px;
+    font-weight: bold;
+    left: 0;
+    letter-spacing: 1px;
+    position: absolute;
+    place-items: center;
+    right: 0;
+    top: 0;
+    user-select: none;
+    z-index: 10;
+}

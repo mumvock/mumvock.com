@@ -1,0 +1,40 @@
+:host {
+    @media (min-width: 769px) {
+        div#about-intro > div:first-of-type,
+        div#stats > ul:first-of-type {
+            min-width: 31rem;
+        }
+
+        div#stats > div:last-of-type,
+        div#about-intro > div:last-of-type {
+            max-width: 75%;
+        }
+
+        div#hit-mark {
+            max-width: 70%;
+        }
+    }
+
+    @media (max-width: 768px) {
+        div#stats > div:last-of-type,
+        div#hit-mark {
+            flex-wrap: wrap;
+        }
+
+        div#stats {
+            flex-direction: column;
+            width: 100%;
+
+            > ul:first-of-type,
+            > div:last-of-typ {
+                width: 100%;
+            }
+        }
+
+        div#hit-mark {
+            > img {
+                order: 2;
+            }
+        }
+    }
+}

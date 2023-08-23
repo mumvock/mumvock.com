@@ -1,0 +1,16 @@
+<div panel alias="options">
+    <div titleBar>
+        Options - mumvock.com
+    </div>
+
+    <nav nav>
+        <ul navList>
+            <li navListItem><a navListAnchor routerLinkActive="active" [routerLink]="OPTIONS_ROUTES.theme">Tema</a></li>
+            <li navListItem><a navListAnchor routerLinkActive="active" class="disabled">Idioma</a></li>
+        </ul>
+    </nav>
+
+    <div container>
+        <router-outlet></router-outlet>
+    </div>
+</div>

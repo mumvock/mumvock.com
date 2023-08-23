@@ -1,0 +1,16 @@
+<figure
+    thumbnail
+    *ngFor="let theme of themes"
+    [ngClass]="theme.class"
+    (click)="changeTheme(theme.class)"
+    class="me-4">
+
+    <img imageLoader thumbnailImg
+        [src]="theme.imgSrc"
+        [alt]="theme.name"
+        [title]="'Alterar para ' + theme.name">
+
+    <figcaption thumbnailDesc>
+        {{ theme.name }}
+    </figcaption>
+</figure>

@@ -1,0 +1,66 @@
+@import 'node_modules/bootstrap/scss/functions';
+@import 'node_modules/bootstrap/scss/variables';
+@import 'node_modules/bootstrap/scss/mixins';
+
+:host {
+    @include media-breakpoint-down(xl) {
+        $y-margin: 1rem;
+        $x-margin: 1.5rem;
+
+        > div:first-of-type {
+            display: flex;
+            flex-wrap: wrap;
+            place-items: flex-end;
+            place-self: flex-end;
+
+            aside[aside] {
+                margin-top: auto;
+                margin-right: auto;
+                padding-left: $x-margin;
+                width: 100%;
+            }
+
+            header[header] {
+                order: 2;
+                padding-bottom: $y-margin;
+                padding-left: $x-margin;
+                padding-right: $x-margin;
+            }
+
+            footer[footer] {
+                order: 3;
+                margin-left: auto;
+                padding: 0 $x-margin $y-margin $x-margin;
+                padding-top: 0;
+            }
+        }
+    }
+
+    @include media-breakpoint-up(xl) {
+        $y-margin: 1.2rem;
+        $x-margin: 2rem;
+
+        aside[aside] {
+            bottom: calc($y-margin + 1.5rem); // 1.5rem = header height
+            left: 0;
+            padding-left: $x-margin;
+            position: absolute;
+        }
+
+        header[header] {
+            bottom: 0;
+            left: 0;
+            margin-bottom: $y-margin;
+            position: absolute;
+            padding-left: $x-margin;
+            padding-right: $x-margin;
+        }
+
+        footer[footer] {
+            bottom: 0;
+            padding: $y-margin $x-margin;
+            position: absolute;
+            right: 0;
+        }
+    }
+}

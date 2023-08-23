@@ -1,0 +1,38 @@
+.gradient {
+    background: -webkit-linear-gradient(to left, #04091b, #394365);
+    background: linear-gradient(to left, #04091b, #394365);
+    border: 1px solid var(--dark);
+    border-left: 1px solid var(--light);
+    border-top: 1px solid var(--light);
+    padding: 1rem 1.5rem;
+}
+
+.small-list {
+    font-size: .875rem;
+}
+
+
+.border-left {
+
+    &::before {
+        content: "";
+        border-left: 1px solid var(--light);
+        border-right: 1px solid var(--dark);
+        border-radius: 2px;
+        display: block;
+        height: 100%;
+        width: 2px;
+
+        @media (max-width: 768px) {
+            display: none;
+        }
+
+        @media (min-width: 769px) {
+            margin-right: 1.5rem;
+        }
+    }
+}
+
+.flex-1 {
+    flex: 1;
+}

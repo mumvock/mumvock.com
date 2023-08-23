@@ -1,0 +1,31 @@
+:host {
+    user-select: none;
+
+    ul {
+        font-size: .9375rem; // 15px if root 16px
+        line-height: 1.8rem;
+        list-style: none;
+        padding: 0;
+
+        li {
+            a {
+                color: var(--base-text-color);
+                cursor: pointer;
+                font-weight: bold;
+                text-decoration: none;
+                opacity: .45;
+
+                &:hover {
+                    opacity: .7;
+                }
+            }
+        }
+
+        li:last-of-type {
+            a {
+                cursor: not-allowed;
+                opacity: .25;
+            }
+        }
+    }
+}

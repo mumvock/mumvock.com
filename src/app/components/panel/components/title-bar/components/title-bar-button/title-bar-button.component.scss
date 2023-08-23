@@ -1,0 +1,44 @@
+:host {
+    align-items: center;
+    color: var(--button-color);
+    display: flex;
+    font-weight: bold;
+    height: 1rem;
+    justify-content: center;
+    line-height: 0;
+    padding: 0;
+    width: 1rem;
+
+    @media (max-width: 768px) {
+        height: 2rem;
+        width: 2rem;
+    }
+
+    &[title^='Maximizar'],
+    &[title^='Maximize'],
+    &[title^='Minimizar'],
+    &[title^='Minimizr'] {
+        align-items: unset;
+        font-size: 1.4rem;
+        line-height: .5rem;
+        margin-right: .35rem;
+
+        @media (max-width: 768px) {
+            font-size: 2.3rem;
+            line-height: 1.3rem;
+            margin-right: 1rem;
+        }
+    }
+
+    &[title^='Fechar'],
+    &[title^='Cerrar'],
+    &[title^='Close'] {
+        align-items: unset;
+        line-height: .9rem;
+
+        @media (max-width: 768px) {
+            line-height: 1.9rem;
+            font-size: 1.5rem;
+        }
+    }
+}

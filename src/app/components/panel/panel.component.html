@@ -1,0 +1,31 @@
+<ng-container *ngIf="resizable">
+    <div class="dragHandleContainer">
+        <span
+            #dragHandleCorner
+            cdkDrag
+            (cdkDragMoved)="dragMove(dragHandleCorner)"
+            class="dragHandle corner">
+        </span>
+        <span
+            #dragHandleRight
+            cdkDrag
+            cdkDragLockAxis="x"
+            (cdkDragMoved)="dragMove(dragHandleRight, 'x')"
+            class="dragHandle right">
+        </span>
+        <span
+            #dragHandleBottom
+            cdkDrag
+            cdkDragLockAxis="y"
+            (cdkDragMoved)="dragMove(dragHandleBottom, 'y')"
+            class="dragHandle bottom">
+        </span>
+    </div>
+</ng-container>
+
+<ng-content></ng-content>
+
+<img *ngIf="resizable"
+    class="dragCornerIcon"
+    [src]="assetsImagesPath + 'resize-corner-icon.png'"
+    alt="resize icon">

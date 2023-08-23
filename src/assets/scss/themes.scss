@@ -1,0 +1,39 @@
+:root {
+    @mixin default-theme {
+        // Mumvock Theme
+        --base-color: var(--color-gray);
+        --base-color-alpha: var(--color-gray-alpha);
+        --base-color-overlay-alpha: var(--color-gray-overlay-alpha);
+        --dark: var(--color-darker-gray);
+        --light: var(--color-light-gray);
+
+        --scroll-track-color: var(--color-middle-gray);
+        --button-color: var(--color-lighter-gray);
+        --bs-highlight-bg: var(--color-light-blue); // mark tag
+        --anchor-color: var(--color-dark-blue);
+        --anchor-hover-color: var(--color-middle-blue);
+        --nav-active-color: white;
+    }
+
+    @include default-theme();
+
+    .mumvock-theme {
+        @include default-theme();
+    }
+
+    // Valve Theme
+    .valve-theme {
+        --base-color: var(--color-moss-green);
+        --base-color-alpha: var(--color-moss-green);
+        --base-color-overlay-alpha: var(--color-moss-green);
+        --dark: var(--color-darker-moss-green);
+        --light: var(--color-light-moss-green);
+
+        --scroll-track-color: var(--color-middle-moss-green);
+        --button-color: white;
+        --bs-highlight-bg: var(--color-middle-moss-yellow); // mark tag
+        --anchor-color: var(--color-middle-moss-yellow);
+        --anchor-hover-color: var(--color-light-moss-yellow);
+        --nav-active-color: var(--color-middle-moss-yellow);
+    }
+}

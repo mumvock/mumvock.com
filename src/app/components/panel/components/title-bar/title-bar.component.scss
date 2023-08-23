@@ -1,0 +1,12 @@
+:host {
+    display: flex;
+    height: 1.688rem; // 27px if root 16px
+    padding-left: 1.688rem; // 27px if root 16px
+    padding-bottom: .375rem; // 6px if root 16px
+    width: 100%;
+
+    @media (max-width: 768px) {
+        height: 3.5rem;
+        padding-bottom: .7rem;
+    }
+}

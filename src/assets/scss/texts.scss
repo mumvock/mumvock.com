@@ -1,0 +1,62 @@
+h1 {
+    font-size: 1.5rem;
+}
+
+h2 {
+    font-size: 1.3rem;
+}
+
+h3 {
+    font-size: 1.1rem;
+}
+
+h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 2rem;
+
+    @media (max-width: 768px) {
+        line-height: 1.5rem;
+    }
+}
+
+h5 {
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+a {
+    color: var(--anchor-color);
+
+    &:hover {
+        color: var(--anchor-hover-color);
+    }
+
+    &[target="_blank"]:after {
+        content: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAABFSURBVHjaYmDAAf6jAUwBVMUJKApxmAhTlIBTIbIimDMY8FiXgOFoJLYCVkXoCmGKscrj8gxlCgkBBgYGBgAAAAD//wMAn4Gsl27s33AAAAAASUVORK5CYII=);
+        color: var(--base-text-color);
+        margin: 0 3px 0 5px;
+    }
+}
+
+kbd {
+    background-color: var(--color-dark-gray);
+    color: var(--color-green);
+    line-height: 1.5rem;
+}
+
+ul {
+    list-style: square;
+
+    @media (max-width: 768px) {
+        padding-left: 1rem;
+    }
+}
+
+.text-justify {
+    text-align: justify;
+}
+
+mark {
+    line-height: 2rem;
+}

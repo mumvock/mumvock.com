@@ -1,0 +1,16 @@
+<img
+    #originalLogo
+    [hidden]="false"
+    [src]="img.srcLogo"
+    [alt]="img.alt"
+    [title]="img.alt"
+    (mouseover)="whiteLogo.hidden = false; originalLogo.hidden = true">
+<img
+    #whiteLogo
+    [hidden]="true"
+    [src]="img.srcWhite"
+    [alt]="img.alt"
+    [title]="img.alt"
+    (mouseout)="whiteLogo.hidden = true; originalLogo.hidden = false">
+
+<small class="text-body-secondary">{{ slogan }}</small>

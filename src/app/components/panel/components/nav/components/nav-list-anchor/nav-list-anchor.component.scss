@@ -1,0 +1,44 @@
+:host {
+    background-color: var(--base-color);
+    border: 1px solid var(--dark);
+    border-bottom: 0;
+    border-left: 1px solid var(--light);
+    border-top: 1px solid var(--light);
+    color: inherit;
+    display: block;
+    height: 1.5rem; // 24px if root 16px
+    line-height: .7rem;
+
+    @media (min-width: 769px) {
+        min-width: 5.625rem; // 90px if root 16px
+    }
+
+    @media (max-width: 768px) {
+        border-bottom: 1px solid var(--dark);
+        height: unset;
+        margin-bottom: -1px;
+        padding: .7rem .5rem;
+
+        &.active {
+            height: 39px !important;
+            margin-top: -4px;
+        }
+    }
+
+    padding: .375rem; // 6px if root 16px
+    text-decoration: none;
+
+    &.active {
+        color: var(--nav-active-color);
+        border-bottom: 1px solid var(--base-color);
+        position: relative;
+        height: 1.688rem; // 27px if root 16px
+        margin-bottom: -1px;
+        margin-top: -2px;
+    }
+
+    &.disabled {
+        color: var(--light);
+        pointer-events: none;
+    }
+}

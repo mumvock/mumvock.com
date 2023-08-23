@@ -1,0 +1,37 @@
+:root,
+html,
+body {
+    color: var(--base-text-color);
+    font-family: Tahoma, Verdana, sans-serif;
+    font-size: 16px;
+    overflow: hidden;
+}
+
+html,
+body {
+    background-color: transparent;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+}
+
+html {
+    background-image: url('./../images/counter-strike_original_background_800x600.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+
+    @media (max-width: 992px) {
+        background-size: cover;
+        background-position: 70% center;
+    }
+}
+
+body {
+    display: flex;
+    position: relative;
+
+    @media (max-width: 992px) {
+        box-shadow: rgba(0, 0, 0, 0.55) 0px -60vh 36px -28px inset;
+    }
+}
