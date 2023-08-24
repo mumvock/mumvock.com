@@ -33,5 +33,5 @@ export const environment = Object.freeze({
         sounds: 'assets/sounds/',
         images: 'assets/images/',
     },
-    version: '1.0.04'
+    version: '1.0.05'
 });
