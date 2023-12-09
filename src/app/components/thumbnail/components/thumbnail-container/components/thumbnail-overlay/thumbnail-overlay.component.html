@@ -4,7 +4,7 @@
     [href]="image.fullImageSrc"
     [title]="image.title"
     target="_blank">
-    <img imageLoader [src]="image.fullImageSrc" [alt]="image.alt" [title]="image.title">
+    <img [src]="image.fullImageSrc" [alt]="image.alt" [title]="image.title">
     <div *ngIf="image?.description?.overlay as overlay">
         <p class="text-body-secondary" [innerHTML]="overlay"></p>
     </div>

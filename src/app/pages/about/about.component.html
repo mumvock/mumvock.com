@@ -28,7 +28,7 @@
 </p>
 
 <!-- <figure thumbnail>
-    <img imageLoader thumbnailImg [src]="assetsImagesPath + 'gabe_is_watching_you.jpg'" alt="Gabe's watching you">
+    <img thumbnailImg [src]="assetsImagesPath + 'gabe_is_watching_you.jpg'" alt="Gabe's watching you">
     <figcaption thumbnailDesc>
         <small class="text-body-secondary">Gabe's watching you</small>
     </figcaption>
@@ -53,7 +53,7 @@
 
     <div thumbnailContainer [imagesDetails]="maps" class="mt-4">
         <figure thumbnail *ngFor="let map of maps">
-            <img imageLoader thumbnailImg [src]="map.thumbnailSrc" [alt]="map.alt" [title]="map.title">
+            <img thumbnailImg [src]="map.thumbnailSrc" [alt]="map.alt" [title]="map.title">
             <figcaption *ngIf="map?.description as desc" thumbnailDesc>
                 {{ desc.primary }}
                 <small *ngIf="desc.secondary as sec" class="text-body-secondary">
@@ -122,7 +122,7 @@
                 Para os que gostam de se exibir, o melhor jogador da partida aparece no final de cada partida juntamente
                 com o jogador que causou o maior dano.
             </p>
-            <img imageLoader thumbnailImg [src]="assetsImagesPath + 'gifs/mvp.gif'" alt="Demonstração MVP">
+            <img thumbnailImg [src]="assetsImagesPath + 'gifs/mvp.gif'" alt="Demonstração MVP">
         </div>
     </div>
     <p><i>[futuramente <u>TOP 15</u> e <u>TOP 15 Facas</u> também estarão disponíveis aqui no site]</i></p>
@@ -150,7 +150,7 @@
     </p>
 
     <div id="hit-mark" class="d-flex mt-5 mb-4">
-        <img imageLoader thumbnailImg [src]="assetsImagesPath + 'gifs/hit_mark.gif'" alt="Demonstração marca de acerto" class="me-md-3">
+        <img thumbnailImg [src]="assetsImagesPath + 'gifs/hit_mark.gif'" alt="Demonstração marca de acerto" class="me-md-3">
         <div>
             <h4 class="mt-0">Marca de acerto na tela <mark>EXCLUSIVO</mark></h4>
             <p>
@@ -183,7 +183,7 @@
         Um exemplo é o mapa Pool Day:
     </p>
 
-    <img imageLoader thumbnailImg [src]="assetsImagesPath + 'pluginsbymap.jpg'" alt="Demonstração plugins por mapa" class="mt-3 mx-auto">
+    <img thumbnailImg [src]="assetsImagesPath + 'pluginsbymap.jpg'" alt="Demonstração plugins por mapa" class="mt-3 mx-auto">
 
     <h4>
         Existem também muitos outros plugins/sistemas implementados voltados principalmente para administração e

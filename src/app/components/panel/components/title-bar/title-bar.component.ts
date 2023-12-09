@@ -29,7 +29,7 @@ export class TitleBarComponent {
         }
 
         const currentPanelSize =
-            this.panelService.panels[this.alias].size.$current.getValue();
+            this.panelService.panels[this.alias].size.current$.getValue();
 
         return (currentPanelSize.width !== '100%'
             ? 'Maximizar'

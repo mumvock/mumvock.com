@@ -9,13 +9,13 @@ export declare interface Size {
 export declare interface PanelPosition {
     default: Point,
     previous: Point,
-    $current: BehaviorSubject<Point>,
+    current$: BehaviorSubject<Point>,
 };
 
 export declare interface PanelSize {
     default: Size,
     previous: Size,
-    $current: BehaviorSubject<Size>,
+    current$: BehaviorSubject<Size>,
 };
 
 export declare interface Panel {

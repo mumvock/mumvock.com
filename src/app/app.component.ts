@@ -1,45 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-import { RouteConfigLoadEnd, RouteConfigLoadStart, Router } from '@angular/router';
-import { takeUntil } from 'rxjs';
+import { Component, OnInit, inject } from '@angular/core';
+import { Router } from '@angular/router';
 
-import { LoaderService } from './core/components/loader/services/loader.service';
 import { ThemeService } from './options/theme-option/services/theme.service';
-import { BaseComponent } from './utils/abstracts/base.components';
 
 @Component({
-  selector: '[root]',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+    selector: '[root]',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
 })
-export class AppComponent extends BaseComponent implements OnInit {
-
-    constructor(
-        private readonly _router: Router,
-        private readonly _loaderService: LoaderService,
-        private readonly _themeService: ThemeService,
-    ) {
-        super();
-        this._manageLazyLoadingLoader();
-    }
+export class AppComponent implements OnInit {
+    private readonly _router = inject(Router);
+    private readonly _themeService = inject(ThemeService);
 
     public ngOnInit(): void {
         this._manageInitialRoute();
         this._themeService.loadTheme();
-    }
-
-    private _manageLazyLoadingLoader(): void {
-        this._router.events
-            .pipe(takeUntil(this.$onDestroy))
-            .subscribe(event => {
-
-                if (event instanceof RouteConfigLoadStart) {
-                    this._loaderService.loadStarted();
-                }
-
-                if (event instanceof RouteConfigLoadEnd) {
-                    this._loaderService.loadCompleted();
-                }
-            });
     }
 
     private _manageInitialRoute(): void {
@@ -47,14 +22,14 @@ export class AppComponent extends BaseComponent implements OnInit {
 
         // initial route
         if (pathname === '/') {
-            this._router.navigate([{ outlets: { pages: 'pages' }}]);
+            this._router.navigate([{ outlets: { pages: 'pages' } }]);
 
             return;
         }
 
         // 404
         if (pathname.length > 1 && !pathname.includes('(pages:')) {
-            this._router.navigate([{ outlets: { pages: 'pages' }}]);
+            this._router.navigate([{ outlets: { pages: 'pages' } }]);
         }
     }
 }

@@ -1,13 +1,15 @@
-import { Directive, ElementRef, Input, OnDestroy, Renderer2 } from '@angular/core';
-import { LoaderService } from '../../components/loader/services/loader.service';
+import { Directive, ElementRef, Input, OnDestroy, Renderer2, inject } from '@angular/core';
+
+import { LoaderService } from '../../services/loader.service';
 
 @Directive({
-    selector: '[imageLoader]',
+    selector: 'img',
+    standalone: true,
 })
 export class ImageLoaderDirective implements OnDestroy {
-    private _imgLoadListenDestroyer!: () => void;
-    private _imgErrorListenDestroyer!: () => void;
-    private _loaderStarted = false;
+    private readonly _elementRef    = inject(ElementRef<HTMLImageElement>);
+    private readonly _loaderService = inject(LoaderService);
+    private readonly _renderer      = inject(Renderer2);
 
     @Input()
     public set src(path: string) {
@@ -22,11 +24,9 @@ export class ImageLoaderDirective implements OnDestroy {
         this._elementRef.nativeElement.src = path;
     }
 
-    constructor(
-        private readonly _elementRef: ElementRef<HTMLImageElement>,
-        private readonly _renderer: Renderer2,
-        private readonly _loaderService: LoaderService
-    ) {}
+    private _imgLoadListenDestroyer!: () => void;
+    private _imgErrorListenDestroyer!: () => void;
+    private _loaderStarted = false;
 
     public ngOnDestroy(): void {
         this._imgLoadListenDestroyer && this._imgLoadListenDestroyer();

@@ -4,7 +4,5 @@ import { Component } from '@angular/core';
     selector: 'div[loader]',
     template: `<p>LOADING...</p>`,
     styleUrls: ['./loader.component.scss'],
-    standalone: true,
 })
-export class LoaderComponent {
-}
+export class LoaderComponent {}

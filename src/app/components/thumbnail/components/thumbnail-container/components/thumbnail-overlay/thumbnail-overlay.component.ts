@@ -1,30 +1,27 @@
+import { DOCUMENT } from '@angular/common';
 import {
     Component,
+    DestroyRef,
     EventEmitter,
     Inject,
     OnDestroy,
     OnInit,
     Renderer2,
 } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
-import { takeUntil } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { ImagesDetails } from '../../../../interfaces/thumbnail.interface';
-import { LoaderService } from './../../../../../../core/components/loader/services/loader.service';
-import { BaseComponent } from './../../../../../../utils/abstracts/base.components';
+import { LoaderService } from './../../../../../../core/loader/services/loader.service';
 
 @Component({
     selector: 'section[thumbnailOverlay]',
     templateUrl: './thumbnail-overlay.component.html',
     styleUrls: ['./thumbnail-overlay.component.scss'],
 })
-export class ThumbnailOverlayComponent
-    extends BaseComponent
-    implements OnInit, OnDestroy
-{
+export class ThumbnailOverlayComponent implements OnInit, OnDestroy {
     public imagesDetails!: Array<ImagesDetails>;
     public currentImgIndex!: number;
-    public readonly $closeOverlay = new EventEmitter<void>();
+    public readonly closeOverlay$ = new EventEmitter<void>();
 
     private _grabPos = { top: 0, left: 0, x: 0, y: 0 };
     private _grabbing = false;
@@ -36,26 +33,23 @@ export class ThumbnailOverlayComponent
     constructor(
         private readonly _renderer: Renderer2,
         private readonly _loaderService: LoaderService,
+        private readonly _destroyRef: DestroyRef,
         @Inject(DOCUMENT) private readonly _document: Document
-    ) {
-        super();
-    }
+    ) {}
 
     public ngOnInit(): void {
         this._listenLoader();
     }
 
-    public override ngOnDestroy(): void {
-        this.$onDestroy.next();
-        this.$onDestroy.complete();
+    public ngOnDestroy(): void {
         this._mouseMoveListenDestroyer && this._mouseMoveListenDestroyer();
         this._mouseUpListenDestroyer && this._mouseUpListenDestroyer();
         this._keyDownListenDestroyer && this._keyDownListenDestroyer();
     }
 
     private _listenLoader(): void {
-        this._loaderService.$isLoading
-            .pipe(takeUntil(this.$onDestroy))
+        this._loaderService.isLoading$
+            .pipe(takeUntilDestroyed(this._destroyRef))
             .subscribe((status) =>
                 status ? this._stopListenArrowKeys() : this._listenArrowKeys()
             );
@@ -68,8 +62,8 @@ export class ThumbnailOverlayComponent
     }
 
     public closeOverlay(): void {
-        this.$closeOverlay.emit();
-        this.$closeOverlay.complete();
+        this.closeOverlay$.emit();
+        this.closeOverlay$.complete();
     }
 
     private _listenArrowKeys(): void {

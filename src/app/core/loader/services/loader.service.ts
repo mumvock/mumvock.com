@@ -1,36 +1,50 @@
+import { DOCUMENT } from '@angular/common';
 import {
     ApplicationRef,
     ComponentRef,
     EnvironmentInjector,
     Inject,
     Injectable,
-    Renderer2,
     RendererFactory2,
     createComponent,
+    inject
 } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
-import { BehaviorSubject } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { RouteConfigLoadEnd, RouteConfigLoadStart, Router } from '@angular/router';
 
+import { BehaviorSubject } from 'rxjs';
 import { LoaderComponent } from '../loader.component';
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable()
 export class LoaderService {
     public static loading = 0;
     private static _loaderComponentRef:
         | ComponentRef<LoaderComponent>
         | undefined;
-    private _renderer: Renderer2;
-    public readonly $isLoading = new BehaviorSubject<boolean>(false);
+    private _renderer = inject(RendererFactory2).createRenderer(null, null);
+    public readonly isLoading$ = new BehaviorSubject<boolean>(false);
 
     constructor(
         private readonly _applicationRef: ApplicationRef,
         private readonly _environmentInjector: EnvironmentInjector,
-        private readonly _rendererFactory: RendererFactory2,
         @Inject(DOCUMENT) private readonly _document: Document
     ) {
-        this._renderer = _rendererFactory.createRenderer(null, null);
+        this._manageLazyLoadingLoader();
+    }
+
+    private _manageLazyLoadingLoader(): void {
+        inject(Router).events
+            .pipe(takeUntilDestroyed())
+            .subscribe((event) => {
+
+                if (event instanceof RouteConfigLoadStart) {
+                    this.loadStarted();
+                }
+
+                if (event instanceof RouteConfigLoadEnd) {
+                    this.loadCompleted();
+                }
+        });
     }
 
     public loadStarted(): void {
@@ -49,10 +63,10 @@ export class LoaderService {
     private _checkLoading(): void {
 
         if (LoaderService.loading) {
-            this.$isLoading.next(true);
+            this.isLoading$.next(true);
             setTimeout(() => this._createLoaderComponent(), 150);
         } else {
-            this.$isLoading.next(false);
+            this.isLoading$.next(false);
             setTimeout(() => this._destroyLoaderComponent(), 150);
         }
 

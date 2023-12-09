@@ -1,8 +1,11 @@
+import { DragDrop, DragRef, Point } from '@angular/cdk/drag-drop';
+import { DOCUMENT } from '@angular/common';
 import {
     AfterContentInit,
     AfterViewInit,
     Component,
     ContentChild,
+    DestroyRef,
     ElementRef,
     Inject,
     Input,
@@ -12,15 +15,13 @@ import {
     Renderer2,
     ViewChild,
 } from '@angular/core';
-import { DragDrop, DragRef, Point } from '@angular/cdk/drag-drop';
-import { DOCUMENT } from '@angular/common';
-import { BehaviorSubject, takeUntil } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { BehaviorSubject } from 'rxjs';
 
 import { environment } from './../../../environments/environment';
-import { PanelService } from './services/panel.service';
-import { Panel, Size } from './interfaces/panel.interface';
 import { TitleBarComponent } from './components/title-bar/title-bar.component';
-import { BaseComponent } from './../../utils/abstracts/base.components';
+import { Panel, Size } from './interfaces/panel.interface';
+import { PanelService } from './services/panel.service';
 
 type HTMLDragHandleElement = HTMLSpanElement;
 
@@ -29,10 +30,7 @@ type HTMLDragHandleElement = HTMLSpanElement;
     templateUrl: './panel.component.html',
     styleUrls: ['./panel.component.scss'],
 })
-export class PanelComponent
-    extends BaseComponent
-    implements OnInit, OnDestroy, AfterContentInit, AfterViewInit
-{
+export class PanelComponent implements OnInit, OnDestroy, AfterContentInit, AfterViewInit {
     @Input({ required: true })
     public alias!: string;
 
@@ -76,10 +74,9 @@ export class PanelComponent
         private readonly _ngZone: NgZone,
         private readonly _renderer: Renderer2,
         private readonly _panelService: PanelService,
+        private readonly _destroyRef: DestroyRef,
         @Inject(DOCUMENT) private readonly _document: Document
-    ) {
-        super();
-    }
+    ) {}
 
     public ngOnInit(): void {
         if (!this._checkAliasRegister(this.alias)) return;
@@ -88,9 +85,7 @@ export class PanelComponent
         this._setStyles();
     }
 
-    public override ngOnDestroy(): void {
-        this.$onDestroy.next();
-        this.$onDestroy.complete();
+    public ngOnDestroy(): void {
 
         this._panelMousedownListenDestroyer &&
             this._panelMousedownListenDestroyer();
@@ -184,13 +179,13 @@ export class PanelComponent
         }
 
         this.panel.size = {
-            $current: new BehaviorSubject<Size>(defaultSize),
+            current$: new BehaviorSubject<Size>(defaultSize),
             previous: defaultSize,
             default: defaultSize,
         };
 
-        this.panel.size.$current
-            .pipe(takeUntil(this.$onDestroy))
+        this.panel.size.current$
+            .pipe(takeUntilDestroyed(this._destroyRef))
             .subscribe((size) =>
                 this._ngZone.runOutsideAngular(() => {
                     const panelElement = this._elementRef.nativeElement;
@@ -224,7 +219,7 @@ export class PanelComponent
         }
 
         this.panel.position = {
-            $current: new BehaviorSubject<Point>(defaultPosition),
+            current$: new BehaviorSubject<Point>(defaultPosition),
             previous: defaultPosition,
             default: defaultPosition,
         };
@@ -237,8 +232,8 @@ export class PanelComponent
                 .withHandles([this._titleBar.elementRef]);
         }
 
-        this.panel.position.$current
-            .pipe(takeUntil(this.$onDestroy))
+        this.panel.position.current$
+            .pipe(takeUntilDestroyed(this._destroyRef))
             .subscribe((position) => {
                 this._dragDropRef.setFreeDragPosition(position);
                 this.setAllHandleTransform();

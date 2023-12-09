@@ -1,6 +1,6 @@
-import { Inject, Injectable, Renderer2, RendererFactory2 } from '@angular/core';
-import { Router } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
+import { Inject, Injectable, RendererFactory2, inject } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Panels } from './../interfaces/panel.interface';
 
@@ -12,25 +12,22 @@ export class PanelService {
      * DO NOT RE-ASSIGN!
      */
     public panels: Panels = {};
-    private _renderer: Renderer2;
+    private _renderer = inject(RendererFactory2).createRenderer(null, null);
 
     constructor(
         private readonly _router: Router,
-        private readonly _rendererFactory: RendererFactory2,
         @Inject(DOCUMENT) private readonly _document: Document
-    ) {
-        this._renderer = _rendererFactory.createRenderer(null, null);
-    }
+    ) {}
 
     public maximizePanel(alias: string): void {
         if (!this._checkAliasRegister(alias)) return;
 
         const { position, size } = this.panels[alias];
 
-        if (size.$current.getValue()?.width === '100%') {
+        if (size.current$.getValue()?.width === '100%') {
             // Already maximized
-            position.$current.next(position.previous || position.default);
-            size.$current.next(size.previous || size.default);
+            position.current$.next(position.previous || position.default);
+            size.current$.next(size.previous || size.default);
         } else {
             const panelElement =
                 this._document?.body?.querySelector<HTMLDivElement>(
@@ -44,8 +41,8 @@ export class PanelService {
                 size.previous = { width: width + 'px', height: height + 'px' };
             }
 
-            position.$current.next({ x: 0, y: 0 });
-            size.$current.next({ width: '100%', height: '100%' });
+            position.current$.next({ x: 0, y: 0 });
+            size.current$.next({ width: '100%', height: '100%' });
         }
     }
 
@@ -53,8 +50,8 @@ export class PanelService {
         if (!this._checkAliasRegister(alias)) return;
 
         const { position, size } = this.panels[alias];
-        position.$current.next(position.default);
-        size.$current.next(size.default);
+        position.current$.next(position.default);
+        size.current$.next(size.default);
 
         this._router.navigate([{ outlets: { [alias]: null } }]);
     }

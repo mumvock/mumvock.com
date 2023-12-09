@@ -1,3 +1,4 @@
+import { DOCUMENT } from '@angular/common';
 import {
     AfterContentInit,
     ApplicationRef,
@@ -14,12 +15,11 @@ import {
     ViewChild,
     createComponent,
 } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
 
+import { first } from 'rxjs';
 import { ImagesDetails } from '../../interfaces/thumbnail.interface';
 import { ThumbnailComponent } from '../../thumbnail.component';
 import { ThumbnailOverlayComponent } from './components/thumbnail-overlay/thumbnail-overlay.component';
-import { first } from 'rxjs';
 
 @Component({
     selector: 'div[thumbnailContainer]',
@@ -110,7 +110,7 @@ export class ThumbnailContainerComponent
 
         overlayComponentRef.instance.currentImgIndex = clickedThumbnailIndex;
         overlayComponentRef.instance.imagesDetails = this.imagesDetails;
-        overlayComponentRef.instance.$closeOverlay
+        overlayComponentRef.instance.closeOverlay$
             .pipe(first())
             .subscribe(() =>
                 this._destroyOverlayComponent(overlayComponentRef)
