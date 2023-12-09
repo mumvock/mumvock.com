@@ -33,7 +33,7 @@ export const environment = Object.freeze({
         sounds: 'assets/sounds/',
         images: 'assets/images/',
     },
-    version: '1.0.05'
+    version: '1.0.06'
 });
 
 // import 'zone.js/plugins/zone-error';  // Included with Angular CLI.
