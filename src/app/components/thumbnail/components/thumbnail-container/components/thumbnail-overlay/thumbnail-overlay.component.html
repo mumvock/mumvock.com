@@ -1,20 +1,41 @@
 <button type="button" (click)="closeOverlay()" title="Fechar">&#x2715;</button>
 
-<a *ngIf="imagesDetails[currentImgIndex] as image"
-    [href]="image.fullImageSrc"
-    [title]="image.title"
-    target="_blank">
-    <img [src]="image.fullImageSrc" [alt]="image.alt" [title]="image.title">
-    <div *ngIf="image?.description?.overlay as overlay">
-        <p class="text-body-secondary" [innerHTML]="overlay"></p>
-    </div>
-</a>
+@if (imagesDetails$$().length) {
 
-<footer>
-    <small class="text-body-secondary d-block mb-3">Clique e arraste para mover as imagens. Clique duas vezes para abrir outra imagem.</small>
-    <div #divElement (mousedown)="mouseDownHandler(divElement, $event)">
-        <figure thumbnail *ngFor="let image of imagesDetails; let i = index" (click)="changeImage(i)">
-            <img thumbnailImg [src]="image.thumbnailSrc" [alt]="image.alt" [title]="image.title">
-        </figure>
-    </div>
-</footer>
+    @if (imagesDetails$$()[currentImgIndex$$()]; as image) {
+        <a  [href]="image.fullImageSrc"
+            [title]="image.title"
+            target="_blank">
+            <img [src]="image.fullImageSrc" [alt]="image.alt" [title]="image.title">
+
+            @if (image?.description?.overlay; as overlay) {
+                <div>
+                    <p class="text-body-secondary" [innerHTML]="overlay"></p>
+                </div>
+            }
+        </a>
+    }
+
+    <footer>
+        <small class="text-body-secondary d-block mb-3">Clique e arraste para mover as imagens. Clique duas vezes para abrir outra imagem.</small>
+        <div #divElement (mousedown)="mouseDownHandler(divElement, $event)">
+            @for (image of imagesDetails$$(); track $index;) {
+                <figure
+                    thumbnail
+                    (click)="changeImage($index)"
+                    [class.selected]="currentImgIndex$$() === $index"
+                    [class.unselected]="currentImgIndex$$() !== $index">
+
+                    <img
+                        thumbnailImg
+                        [src]="image.thumbnailSrc"
+                        [alt]="image.alt"
+                        [title]="image.title">
+                </figure>
+            }
+        </div>
+    </footer>
+} @else {
+    <small class="text-body-secondary d-block">Não há imagens.</small>
+}
+

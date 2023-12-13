@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 
 import { ThumbnailComponent } from '../../thumbnail.component';
 import { ThumbnailImgComponent } from '../thumbnail-img/thumbnail-img.component';
-import { ImageLoaderDirective } from './../../../../core/loader/directives/image-loader/image-loader.directive';
 import { ThumbnailOverlayComponent } from './components/thumbnail-overlay/thumbnail-overlay.component';
 import { ThumbnailContainerComponent } from './thumbnail-container.component';
 
@@ -19,6 +18,6 @@ import { ThumbnailContainerComponent } from './thumbnail-container.component';
         ThumbnailComponent,
         ThumbnailImgComponent,
     ],
-    imports: [CommonModule, ImageLoaderDirective],
+    imports: [CommonModule],
 })
 export class ThumbnailContainerModule {}

@@ -1,16 +1,18 @@
-<figure
-    thumbnail
-    *ngFor="let theme of themes"
-    [ngClass]="theme.class"
-    (click)="changeTheme(theme.class)"
-    class="me-4">
+@for (theme of themes; track $index) {
+    <figure
+        thumbnail
+        [ngClass]="theme.class"
+        [class.selected]="currentThemeClass$$() === theme.class"
+        (click)="changeTheme(theme.class)"
+        class="me-4">
 
-    <img thumbnailImg
-        [src]="theme.imgSrc"
-        [alt]="theme.name"
-        [title]="'Alterar para ' + theme.name">
+        <img thumbnailImg
+            [src]="theme.imgSrc"
+            [alt]="theme.name"
+            [title]="'Alterar para ' + theme.name">
 
-    <figcaption thumbnailDesc>
-        {{ theme.name }}
-    </figcaption>
-</figure>
+        <figcaption thumbnailDesc>
+            {{ theme.name }}
+        </figcaption>
+    </figure>
+}

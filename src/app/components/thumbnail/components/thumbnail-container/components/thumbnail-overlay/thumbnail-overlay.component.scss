@@ -1,5 +1,7 @@
+@import './../../../../../../../assets/scss/misc';
+
 :host {
-    background-color: var(--overlay-color);
+    background-color: black;
     bottom: 0;
     left: 0;
     position: absolute;
@@ -28,9 +30,8 @@
         }
 
         img:first-of-type {
-            border: 1px solid var(--dark);
-            border-bottom: 1px solid var(--light);
-            border-right: 1px solid var(--light);
+            @include inverse-border();
+
             object-fit: cover;
             width: 100%;
 

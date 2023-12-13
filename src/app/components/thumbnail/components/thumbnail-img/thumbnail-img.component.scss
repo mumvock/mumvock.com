@@ -1,9 +1,21 @@
+@import './../../../placeholder/components/placeholder-img/placeholder-img.mixins.scss';
+@import './../../../../../assets/scss/misc';
+
 :host {
-    border: 1px solid var(--dark);
-    border-right: 1px solid var(--light);
-    border-bottom: 1px solid var(--light);
+    display: block;
 
     @media (max-width: 768px) {
         width: 100%;
+    }
+
+    @include placeholder-img();
+    @include inverse-border();
+
+    min-height: 150px;
+    min-width: 200px;
+
+    &.large-thumbnail {
+        min-height: 240px;
+        min-width: 320px;
     }
 }

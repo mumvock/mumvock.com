@@ -1,16 +1,21 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+export enum APP_ROUTES {
+    pages   = 'pages',
+    options = 'options',
+};
+
 const routes: Routes = [
     {
-        path: 'pages',
-        outlet: 'pages',
+        path: APP_ROUTES.pages,
+        outlet: APP_ROUTES.pages,
         loadChildren: () =>
             import('./pages/pages.module').then((m) => m.PagesModule),
     },
     {
-        path: 'options',
-        outlet: 'options',
+        path: APP_ROUTES.options,
+        outlet: APP_ROUTES.options,
         loadChildren: () =>
             import('./options/options.module').then((m) => m.OptionsModule),
     },

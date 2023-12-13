@@ -1,6 +1,11 @@
-.gradient {
+@mixin background-gradient {
     background: -webkit-linear-gradient(to left, #04091b, #394365);
     background: linear-gradient(to left, #04091b, #394365);
+}
+
+.gradient {
+    @include background-gradient();
+
     border: 1px solid var(--dark);
     border-left: 1px solid var(--light);
     border-top: 1px solid var(--light);
@@ -10,7 +15,6 @@
 .small-list {
     font-size: .875rem;
 }
-
 
 .border-left {
 
@@ -35,4 +39,16 @@
 
 .flex-1 {
     flex: 1;
+}
+
+@mixin border {
+    border: 1px solid var(--dark);
+    border-bottom: 1px solid var(--light);
+    border-right: 1px solid var(--light);
+}
+
+@mixin inverse-border {
+    border: 1px solid var(--dark);
+    border-bottom: 1px solid var(--light);
+    border-right: 1px solid var(--light);
 }

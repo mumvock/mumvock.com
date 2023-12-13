@@ -1,16 +1,16 @@
 <ul>
     <li>
         <a href="steam://launch/10/Dialog" (mouseover)="playSound()" (click)="playSound(true)">
-            Abrir Counter-Strike
+            Jogar Counter-Strike
         </a>
     </li>
     <li>
-        <a (mouseover)="playSound()" (click)="openPanel('pages')">
+        <a (mouseover)="playSound()" (click)="openPanel(APP_ROUTES.pages)">
             Abrir Páginas
         </a>
     </li>
     <li>
-        <a (mouseover)="playSound()" (click)="openPanel('options')">
+        <a (mouseover)="playSound()" (click)="openPanel(APP_ROUTES.options)">
             Opções
         </a>
     </li>

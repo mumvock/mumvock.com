@@ -1,6 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable, RendererFactory2, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 
 import { Panels } from './../interfaces/panel.interface';
 
@@ -8,11 +9,8 @@ import { Panels } from './../interfaces/panel.interface';
     providedIn: 'root',
 })
 export class PanelService {
-    /**
-     * DO NOT RE-ASSIGN!
-     */
-    public panels: Panels = {};
-    private _renderer = inject(RendererFactory2).createRenderer(null, null);
+    public readonly panels$ = new BehaviorSubject<Panels>({});
+    private readonly _renderer = inject(RendererFactory2).createRenderer(null, null);
 
     constructor(
         private readonly _router: Router,
@@ -20,9 +18,9 @@ export class PanelService {
     ) {}
 
     public maximizePanel(alias: string): void {
-        if (!this._checkAliasRegister(alias)) return;
+        if (!this.checkAliasRegister(alias)) return;
 
-        const { position, size } = this.panels[alias];
+        const { position, size } = this.panels$.getValue()[alias];
 
         if (size.current$.getValue()?.width === '100%') {
             // Already maximized
@@ -47,9 +45,9 @@ export class PanelService {
     }
 
     public closePanel(alias: string): void {
-        if (!this._checkAliasRegister(alias)) return;
+        if (!this.checkAliasRegister(alias)) return;
 
-        const { position, size } = this.panels[alias];
+        const { position, size } = this.panels$.getValue()[alias];
         position.current$.next(position.default);
         size.current$.next(size.default);
 
@@ -62,7 +60,7 @@ export class PanelService {
     }
 
     public managePanelsZIndex(alias: string): void {
-        Object.keys(this.panels).forEach((otherPanelAlias) => {
+        Object.keys(this.panels$).forEach((otherPanelAlias) => {
 
             if (otherPanelAlias !== alias) {
                 const otherPanelElement =
@@ -93,8 +91,9 @@ export class PanelService {
         });
     }
 
-    private _checkAliasRegister(alias: string): boolean {
-        if (!this.panels[alias]) {
+    public checkAliasRegister(alias: string): boolean {
+
+        if (!this.panels$.getValue()[alias]) {
             console.error(`PanelService: alias not registered.`);
 
             return false;

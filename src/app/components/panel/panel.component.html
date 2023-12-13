@@ -1,4 +1,4 @@
-<ng-container *ngIf="resizable">
+@if (resizable) {
     <div class="dragHandleContainer">
         <span
             #dragHandleCorner
@@ -21,11 +21,13 @@
             class="dragHandle bottom">
         </span>
     </div>
-</ng-container>
+}
 
 <ng-content></ng-content>
 
-<img *ngIf="resizable"
-    class="dragCornerIcon"
-    [src]="assetsImagesPath + 'resize-corner-icon.png'"
-    alt="resize icon">
+@if (resizable) {
+    <img
+        class="dragCornerIcon"
+        [src]="assetsImagesPath + 'resize-corner-icon.png'"
+        alt="resize icon">
+}

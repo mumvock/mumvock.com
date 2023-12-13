@@ -2,18 +2,20 @@
     <ng-content></ng-content>
 </span>
 
-<button
-    *ngIf="maximizeButton"
-    titleBarButton
-    #maxMinButton
-    [title]="getMaximizeButtonTitle()"
-    (click)="panelService.maximizePanel(alias)">
-    &#9633;
-</button>
+@if (maximizeButton) {
+    <button
+        titleBarButton
+        #maxMinButton
+        [title]="maximizeButtonTitle$$()"
+        (click)="maximizePanel(alias)">
+        &#9633;
+    </button>
+}
+
 <button
     #closeButton
     titleBarButton
     title="Fechar"
-    (click)="panelService.closePanel(alias)">
+    (click)="closePanel(alias)">
     &#x2715;
 </button>

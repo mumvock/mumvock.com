@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { environment } from './../../../environments/environment';
 
@@ -7,10 +7,11 @@ import { environment } from './../../../environments/environment';
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss'],
     standalone: true,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent {
-    public img: { alt: string; srcLogo: string, srcWhite: string };
-    public slogan: string;
+    protected readonly img: { alt: string; srcLogo: string, srcWhite: string };
+    protected readonly slogan: string;
 
     constructor() {
         const { websiteUrl, srcLogo, srcWhiteLogo, slogan } = environment.identity;

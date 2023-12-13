@@ -1,3 +1,5 @@
+@import './../scss/misc';
+
 button {
     background-color: var(--base-color-alpha);
     border: 1px solid var(--dark);
@@ -5,9 +7,8 @@ button {
     border-top: 1px solid var(--light);
 
     &:active {
-        border: 1px solid var(--dark);
-        border-bottom: 1px solid var(--light);
-        border-right: 1px solid var(--light);
+        @include inverse-border();
+
         font-size: .8rem;
         margin-bottom: 1px;
         margin-top: -1px;
@@ -55,10 +56,9 @@ hr {
     width: 17px;
 
     &:active {
+        @include inverse-border();
+
         background-position: 83% 83%;
-        border: 1px solid var(--dark);
-        border-bottom: 1px solid var(--light);
-        border-right: 1px solid var(--light);
     }
 }
 

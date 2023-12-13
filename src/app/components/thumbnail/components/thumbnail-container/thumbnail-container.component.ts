@@ -2,6 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import {
     AfterContentInit,
     ApplicationRef,
+    ChangeDetectionStrategy,
     Component,
     ComponentRef,
     ContentChildren,
@@ -25,16 +26,17 @@ import { ThumbnailOverlayComponent } from './components/thumbnail-overlay/thumbn
     selector: 'div[thumbnailContainer]',
     template: `
         <div #expandContainerElement><ng-content></ng-content></div>
-        <button
-            *ngIf="!expanded"
-            type="button"
-            (click)="expandContainer()"
-            title="Clique para ver todos"
-        >
-            Ver todos
-        </button>
+        @if (!expanded) {
+            <button
+                type="button"
+                (click)="expandContainer()"
+                title="Clique para ver todos">
+                Ver todos
+            </button>
+        }
     `,
     styleUrls: ['./thumbnail-container.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ThumbnailContainerComponent
     implements OnDestroy, AfterContentInit
@@ -42,8 +44,8 @@ export class ThumbnailContainerComponent
     @Input()
     public imagesDetails!: Array<ImagesDetails>;
 
-    @ContentChildren(ThumbnailComponent)
-    private _thumbnails!: QueryList<ThumbnailComponent> | undefined;
+    @ContentChildren(ThumbnailComponent, { read: ElementRef })
+    private _thumbnails!: QueryList<ElementRef<HTMLElement>> | undefined;
 
     @ViewChild('expandContainerElement')
     private _expandContainerElement!: ElementRef<HTMLDivElement>;
@@ -69,7 +71,7 @@ export class ThumbnailContainerComponent
         );
     }
 
-    public expandContainer(): void {
+    protected expandContainer(): void {
         this._renderer.setStyle(
             this._expandContainerElement.nativeElement,
             'max-height',
@@ -88,7 +90,7 @@ export class ThumbnailContainerComponent
         if (!this._thumbnails) return;
 
         this._thumbnails.map((thumbnail, thumbnailIndex) => {
-            const thumbnailElement = thumbnail.elementRef.nativeElement;
+            const thumbnailElement = thumbnail.nativeElement;
             this._listenersDestroyer[thumbnailIndex] = this._renderer.listen(
                 thumbnailElement,
                 'click',
@@ -108,8 +110,8 @@ export class ThumbnailContainerComponent
             environmentInjector: this._environmentInjector,
         });
 
-        overlayComponentRef.instance.currentImgIndex = clickedThumbnailIndex;
-        overlayComponentRef.instance.imagesDetails = this.imagesDetails;
+        overlayComponentRef.instance.currentImgIndex$$.set(clickedThumbnailIndex);
+        overlayComponentRef.instance.imagesDetails$$.set(this.imagesDetails);
         overlayComponentRef.instance.closeOverlay$
             .pipe(first())
             .subscribe(() =>

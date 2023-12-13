@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { environment } from './../../../environments/environment';
 
@@ -21,9 +21,10 @@ import { environment } from './../../../environments/environment';
     `,
     styleUrls: ['./footer.component.scss'],
     standalone: true,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FooterComponent {
-    public version: string;
+    protected readonly version: string;
 
     constructor() {
         this.version = environment.version;

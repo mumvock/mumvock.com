@@ -21,7 +21,7 @@ export class LoaderService {
     private static _loaderComponentRef:
         | ComponentRef<LoaderComponent>
         | undefined;
-    private _renderer = inject(RendererFactory2).createRenderer(null, null);
+    private readonly _renderer = inject(RendererFactory2).createRenderer(null, null);
     public readonly isLoading$ = new BehaviorSubject<boolean>(false);
 
     constructor(

@@ -1,3 +1,5 @@
+@import './../../../../../assets/scss/misc';
+
 :host {
     background-color: var(--base-color);
     border: 1px solid var(--dark);
@@ -10,9 +12,8 @@
     padding: .563rem; // 9px if root 16px
 
     > div:first-child {
-        border: 1px solid var(--dark);
-        border-bottom: 1px solid var(--light);
-        border-right: 1px solid var(--light);
+        @include inverse-border();
+
         flex-grow: 1;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         font-size: 1rem;

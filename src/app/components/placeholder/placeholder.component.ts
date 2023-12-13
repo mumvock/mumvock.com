@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-    selector: 'figure[thumbnail]',
+    selector: 'div[placeholder]',
     template: `<ng-content></ng-content>`,
-    styleUrls: ['./thumbnail.component.scss'],
+    styleUrls: ['placeholder.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ThumbnailComponent {}
+export class PlaceholderComponent {}

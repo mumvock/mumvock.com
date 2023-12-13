@@ -1,54 +1,39 @@
-import { DOCUMENT } from '@angular/common';
-import { Component, Inject, Renderer2 } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 import { environment } from './../../../environments/environment';
-import { THEME_STORAGE_KEY } from './services/theme.service';
-
-declare interface Themes {
-    class: THEMES_CLASS;
-    imgSrc: string;
-    name: string;
-}
-
-enum THEMES_CLASS {
-    mumvockTheme = 'mumvock-theme',
-    valveTheme = 'valve-theme',
-};
+import { THEMES_CLASS, Themes } from './interfaces/themes.interface';
+import { ThemeService } from './services/theme.service';
 
 @Component({
     selector: 'section[theme]',
     templateUrl: './theme-option.component.html',
     styleUrls: ['./theme-option.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ThemeOptionComponent {
-    public readonly themes: Array<Themes>;
+    private readonly _themeService = inject(ThemeService);
 
-    constructor(
-        private readonly _renderer: Renderer2,
-        @Inject(DOCUMENT) private readonly _document: Document
-    ) {
-        const { images } = environment.assets;
+    protected readonly themes: Array<Themes>;
+    protected readonly currentThemeClass$$ = this._themeService.currentThemeClass$$;
+
+    constructor() {
+        const themesPath = `${environment.assets.images}themes/`;
 
         this.themes = [
             {
-                class: THEMES_CLASS.mumvockTheme,
-                imgSrc: images + 'themes/mumvock_theme.jpg',
+                class: THEMES_CLASS['mumvock-theme'],
+                imgSrc: themesPath + 'mumvock_theme.jpg',
                 name: 'Mumvock Theme'
             },
             {
-                class: THEMES_CLASS.valveTheme,
-                imgSrc: images + 'themes/valve_theme.jpg',
+                class: THEMES_CLASS['valve-theme'],
+                imgSrc: themesPath + 'valve_theme.jpg',
                 name: 'Valve Theme'
             }
         ];
     }
 
-    public changeTheme(themeClass: THEMES_CLASS) {
-        Object.values(THEMES_CLASS).forEach((themeName) =>
-            this._renderer.removeClass(this._document.body, themeName)
-        );
-
-        this._renderer.addClass(this._document.body, themeClass);
-        localStorage.setItem(THEME_STORAGE_KEY, themeClass);
+    protected changeTheme(themeClass: THEMES_CLASS): void {
+        this._themeService.changeTheme(themeClass);
     }
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   template: `
@@ -15,5 +15,6 @@ import { Component } from '@angular/core';
         </p>
     </section>
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NotFoundComponent {}

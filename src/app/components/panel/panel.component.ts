@@ -3,6 +3,7 @@ import { DOCUMENT } from '@angular/common';
 import {
     AfterContentInit,
     AfterViewInit,
+    ChangeDetectionStrategy,
     Component,
     ContentChild,
     DestroyRef,
@@ -29,6 +30,7 @@ type HTMLDragHandleElement = HTMLSpanElement;
     selector: 'div[panel]',
     templateUrl: './panel.component.html',
     styleUrls: ['./panel.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PanelComponent implements OnInit, OnDestroy, AfterContentInit, AfterViewInit {
     @Input({ required: true })
@@ -62,8 +64,8 @@ export class PanelComponent implements OnInit, OnDestroy, AfterContentInit, Afte
     /**
      * DO NOT RE-ASSIGN!
      */
-    public panel!: Panel;
-    public readonly assetsImagesPath = environment.assets.images;
+    private panel!: Panel;
+    protected readonly assetsImagesPath = environment.assets.images;
 
     private _dragDropRef!: DragRef<HTMLHeadElement>;
     private _panelMousedownListenDestroyer!: () => void;
@@ -79,8 +81,6 @@ export class PanelComponent implements OnInit, OnDestroy, AfterContentInit, Afte
     ) {}
 
     public ngOnInit(): void {
-        if (!this._checkAliasRegister(this.alias)) return;
-
         this.panel = this._registerPanel();
         this._setStyles();
     }
@@ -90,24 +90,21 @@ export class PanelComponent implements OnInit, OnDestroy, AfterContentInit, Afte
         this._panelMousedownListenDestroyer &&
             this._panelMousedownListenDestroyer();
 
-        const { panels } = this._panelService;
+        const panels = this._panelService.panels$.getValue();
 
         if (this.alias && panels[this.alias]) {
-            delete this._panelService.panels[this.alias];
+            delete panels[this.alias];
+            this._panelService.panels$.next(panels);
         }
     }
 
     public ngAfterContentInit(): void {
-        if (!this._checkAliasRegister(this.alias)) return;
-
         this._syncPanelPosition();
         this._syncPanelSize();
     }
 
     public ngAfterViewInit(): void {
-        if (!this._checkAliasRegister(this.alias)) return;
-
-        this.setAllHandleTransform();
+        this._setAllHandleTransform();
         this._listenPanelMousedown();
     }
 
@@ -121,18 +118,8 @@ export class PanelComponent implements OnInit, OnDestroy, AfterContentInit, Afte
         );
     }
 
-    private _checkAliasRegister(alias: string | undefined): boolean {
-        if (!alias) {
-            console.error(`PanelComponent: no alias provided.`);
-
-            return false;
-        }
-
-        return true;
-    }
-
     private _registerPanel(): Panel {
-        const { panels } = this._panelService;
+        const panels = this._panelService.panels$.getValue();
 
         if (panels[this.alias]) {
             return panels[this.alias];
@@ -141,6 +128,8 @@ export class PanelComponent implements OnInit, OnDestroy, AfterContentInit, Afte
         Object.assign(panels, {
             [this.alias]: {} as Panel,
         });
+
+        this._panelService.panels$.next(panels);
 
         return panels[this.alias];
     }
@@ -195,19 +184,20 @@ export class PanelComponent implements OnInit, OnDestroy, AfterContentInit, Afte
                         size.height
                     );
                     this._renderer.setStyle(panelElement, 'width', size.width);
-                    this.setAllHandleTransform();
+                    this._setAllHandleTransform();
                 })
             );
     }
 
     private _syncPanelPosition(): void {
+
         if (!this._titleBar || !this._titleBar.elementRef) {
             return;
         }
 
         this._titleBar.alias = this.alias;
 
-        const panelsLength = Object.keys(this._panelService.panels).length;
+        const panelsLength = Object.keys(this._panelService.panels$.getValue()).length;
         let defaultPosition = this._DEFAULT_PANEL_POSITION;
 
         if (panelsLength > 1) {
@@ -236,11 +226,11 @@ export class PanelComponent implements OnInit, OnDestroy, AfterContentInit, Afte
             .pipe(takeUntilDestroyed(this._destroyRef))
             .subscribe((position) => {
                 this._dragDropRef.setFreeDragPosition(position);
-                this.setAllHandleTransform();
+                this._setAllHandleTransform();
             });
     }
 
-    public setAllHandleTransform(): void {
+    private _setAllHandleTransform(): void {
         if (!this.resizable) return;
 
         const rect = this._elementRef.nativeElement.getBoundingClientRect();
@@ -292,7 +282,7 @@ export class PanelComponent implements OnInit, OnDestroy, AfterContentInit, Afte
         });
     }
 
-    public dragMove(dragHandle?: HTMLDragHandleElement, axis?: 'x' | 'y') {
+    protected dragMove(dragHandle?: HTMLDragHandleElement, axis?: 'x' | 'y') {
         this._ngZone.runOutsideAngular(() => this._resize(dragHandle, axis));
     }
 
@@ -314,7 +304,7 @@ export class PanelComponent implements OnInit, OnDestroy, AfterContentInit, Afte
             this._renderer.setStyle(panelElement, 'height', height + 'px');
         }
 
-        this.setAllHandleTransform();
+        this._setAllHandleTransform();
     }
 
     private _listenPanelMousedown(): void {

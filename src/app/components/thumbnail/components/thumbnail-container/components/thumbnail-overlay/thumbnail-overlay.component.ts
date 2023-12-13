@@ -1,26 +1,38 @@
 import { DOCUMENT } from '@angular/common';
 import {
+    ChangeDetectionStrategy,
     Component,
     DestroyRef,
+    ElementRef,
     EventEmitter,
     Inject,
+    Injector,
     OnDestroy,
     OnInit,
+    QueryList,
     Renderer2,
+    ViewChildren,
+    effect,
+    signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { ImagesDetails } from '../../../../interfaces/thumbnail.interface';
+import { ThumbnailComponent } from './../../../../../../components/thumbnail/thumbnail.component';
 import { LoaderService } from './../../../../../../core/loader/services/loader.service';
 
 @Component({
     selector: 'section[thumbnailOverlay]',
     templateUrl: './thumbnail-overlay.component.html',
     styleUrls: ['./thumbnail-overlay.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ThumbnailOverlayComponent implements OnInit, OnDestroy {
-    public imagesDetails!: Array<ImagesDetails>;
-    public currentImgIndex!: number;
+    @ViewChildren(ThumbnailComponent, { read: ElementRef })
+    private readonly _thumbnails!: QueryList<ElementRef<HTMLElement>>;
+
+    public readonly imagesDetails$$ = signal<Array<ImagesDetails>>([]);
+    public readonly currentImgIndex$$ = signal<number>(0);
     public readonly closeOverlay$ = new EventEmitter<void>();
 
     private _grabPos = { top: 0, left: 0, x: 0, y: 0 };
@@ -34,17 +46,32 @@ export class ThumbnailOverlayComponent implements OnInit, OnDestroy {
         private readonly _renderer: Renderer2,
         private readonly _loaderService: LoaderService,
         private readonly _destroyRef: DestroyRef,
+        private readonly _injector: Injector,
         @Inject(DOCUMENT) private readonly _document: Document
     ) {}
 
     public ngOnInit(): void {
         this._listenLoader();
+        this._scrollToCurrentImg();
     }
 
     public ngOnDestroy(): void {
         this._mouseMoveListenDestroyer && this._mouseMoveListenDestroyer();
         this._mouseUpListenDestroyer && this._mouseUpListenDestroyer();
         this._keyDownListenDestroyer && this._keyDownListenDestroyer();
+    }
+
+    private _scrollToCurrentImg(): void {
+        effect(() => {
+            this._thumbnails
+                .get(this.currentImgIndex$$())?.nativeElement
+                .scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center',
+                    inline: 'center'
+                });
+
+        }, { injector: this._injector });
     }
 
     private _listenLoader(): void {
@@ -55,13 +82,13 @@ export class ThumbnailOverlayComponent implements OnInit, OnDestroy {
             );
     }
 
-    public changeImage(thumbnailIndex: number): void {
+    protected changeImage(thumbnailIndex: number): void {
         if (this._grabbing) return;
 
-        this.currentImgIndex = thumbnailIndex;
+        this.currentImgIndex$$.set(thumbnailIndex);
     }
 
-    public closeOverlay(): void {
+    protected closeOverlay(): void {
         this.closeOverlay$.emit();
         this.closeOverlay$.complete();
     }
@@ -80,25 +107,27 @@ export class ThumbnailOverlayComponent implements OnInit, OnDestroy {
 
     private _onKeyDown(event: KeyboardEvent): void {
         const previousImage = (): void => {
+
             if (
-                this.currentImgIndex === undefined ||
-                this.currentImgIndex === 0
+                this.currentImgIndex$$() === undefined ||
+                this.currentImgIndex$$() === 0
             ) {
                 return;
             }
 
-            this.currentImgIndex--;
+            this.currentImgIndex$$.update((currentImgIndex) => currentImgIndex - 1);
         };
 
         const nextImage = (): void => {
+
             if (
-                this.currentImgIndex === undefined ||
-                this.currentImgIndex === this.imagesDetails.length - 1
+                this.currentImgIndex$$() === undefined ||
+                this.currentImgIndex$$() === this.imagesDetails$$().length - 1
             ) {
                 return;
             }
 
-            this.currentImgIndex++;
+            this.currentImgIndex$$.update((currentImgIndex) => currentImgIndex + 1);
         };
 
         if (event.key == 'ArrowLeft') {
@@ -112,7 +141,7 @@ export class ThumbnailOverlayComponent implements OnInit, OnDestroy {
         }
     }
 
-    public mouseDownHandler(div: HTMLDivElement, event: MouseEvent): void {
+    protected mouseDownHandler(div: HTMLDivElement, event: MouseEvent): void {
         this._grabbing = true;
         this._mouseMoveListenDestroyer && this._mouseMoveListenDestroyer();
         this._mouseUpListenDestroyer && this._mouseUpListenDestroyer();

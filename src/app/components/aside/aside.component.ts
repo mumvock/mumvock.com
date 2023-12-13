@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+
+import { APP_ROUTES } from './../../app-routing.module';
 
 import { environment } from './../../../environments/environment';
 import { PanelService } from './../panel/services/panel.service';
@@ -12,25 +14,27 @@ declare interface Audios {
     selector: 'aside[aside]',
     templateUrl: './aside.component.html',
     styleUrls: ['./aside.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AsideComponent {
-    private _audios: Audios;
+    protected readonly APP_ROUTES = APP_ROUTES;
+    private readonly _audios: Audios;
 
     constructor(private readonly _panelService: PanelService) {
-
         this._audios = {
             click: new Audio(environment.assets.sounds + 'buttonclickrelease.wav'),
             hover: new Audio(environment.assets.sounds + 'buttonrollover.wav'),
         };
+
         this._loadAudios();
     }
 
-    public openPanel(alias: string): void {
+    protected openPanel(alias: APP_ROUTES): void {
         this.playSound(true);
         this._panelService.openPanel(alias);
     }
 
-    public playSound(click?: boolean): void {
+    protected playSound(click?: boolean): void {
         this._audios[click ? 'click' : 'hover'].play();
     }
 

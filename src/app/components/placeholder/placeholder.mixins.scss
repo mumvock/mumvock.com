@@ -1,0 +1,34 @@
+@mixin placeholder-animation {
+    position: static;
+    overflow: hidden;
+    -webkit-animation: placeholder 2s linear;
+    animation: placeholder 2s linear;
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+    background-image: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0.08) 0,
+        rgba(0, 0, 0, 0.15) 15%,
+        rgba(0, 0, 0, 0.08) 30%
+    );
+    background-size: 1200px 100%;
+
+    @-webkit-keyframes placeholder {
+        0% {
+            background-position: -1200px 0;
+        }
+        100% {
+            background-position: 1200px 0;
+        }
+    }
+
+    @keyframes placeholder {
+        0% {
+            background-position: -1200px 0;
+        }
+        100% {
+            background-position: 1200px 0;
+        }
+    }
+}
+
