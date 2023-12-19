@@ -1,6 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-
-import { PlaceholderImg } from './../../../../components/placeholder/abstracts/placeholder-img.abstract';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
     selector: 'img[thumbnailImg]',
@@ -8,12 +6,4 @@ import { PlaceholderImg } from './../../../../components/placeholder/abstracts/p
     styleUrls: ['./thumbnail-img.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ThumbnailImgComponent extends PlaceholderImg {
-    @Input()
-    public set largeThumbnail(large: boolean | undefined) {
-
-        if (large) {
-            this._renderer.addClass(this.elementRef.nativeElement, 'large-thumbnail');
-        }
-    }
-}
+export class ThumbnailImgComponent {}

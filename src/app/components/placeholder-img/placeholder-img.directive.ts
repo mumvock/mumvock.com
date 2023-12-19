@@ -1,9 +1,10 @@
-import { Component, ElementRef, Input, OnDestroy, Renderer2, inject } from '@angular/core';
+import { Directive, ElementRef, Input, OnDestroy, Renderer2, inject } from '@angular/core';
 
-@Component({
-    template: '',
+@Directive({
+    selector: 'img',
+    standalone: true
 })
-export abstract class PlaceholderImg implements OnDestroy {
+export class PlaceholderImgDirective implements OnDestroy {
     protected readonly elementRef: ElementRef<HTMLImageElement> = inject(ElementRef<HTMLImageElement>);
     protected readonly _renderer = inject(Renderer2);
 
@@ -15,7 +16,7 @@ export abstract class PlaceholderImg implements OnDestroy {
         }
 
         this._loadStarted();
-        this.elementRef.nativeElement.src = path;
+        // this.elementRef.nativeElement.src = path;
     }
 
     private _imgLoadListenDestroyer!: () => void;
@@ -57,14 +58,14 @@ export abstract class PlaceholderImg implements OnDestroy {
     private _setPlaceholder(): void {
         this._renderer.addClass(
             this.elementRef.nativeElement,
-            'placeholder-img'
+            'placeholder'
         );
     }
 
     private _removePlaceholder(): void {
         this._renderer.removeClass(
             this.elementRef.nativeElement,
-            'placeholder-img'
+            'placeholder'
         );
     }
 

@@ -1,0 +1,237 @@
+.placeholder {
+    position: static;
+    overflow: hidden;
+    -webkit-animation: placeholder 2s linear;
+    animation: placeholder 2s linear;
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+    background-image: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0.08) 0,
+        rgba(0, 0, 0, 0.15) 15%,
+        rgba(0, 0, 0, 0.08) 30%
+    );
+    background-size: 1200px 100%;
+
+    @-webkit-keyframes placeholder {
+        0% {
+            background-position: -1200px 0;
+        }
+        100% {
+            background-position: 1200px 0;
+        }
+    }
+
+    @keyframes placeholder {
+        0% {
+            background-position: -1200px 0;
+        }
+        100% {
+            background-position: 1200px 0;
+        }
+    }
+
+    max-width: 30rem;
+
+    &.fluid {
+        max-width: none;
+    }
+
+    & + & {
+        margin-top: 2rem;
+    }
+
+    & + & {
+        -webkit-animation-delay: .15s;
+        animation-delay: .15s;
+    }
+
+    & + & + & {
+        -webkit-animation-delay: .3s;
+        animation-delay: .3s;
+    }
+
+    & + & + & + & {
+        -webkit-animation-delay: .45s;
+        animation-delay: .45s;
+    }
+
+    & + & + & + & + & {
+        -webkit-animation-delay: .6s;
+        animation-delay: .6s;
+    }
+
+    & .full.line.line.line:after {
+        width: 0%;
+    }
+
+    & .very.long.line.line.line:after {
+        width: 10%;
+    }
+
+    & .long.line.line.line:after {
+        width: 35%;
+    }
+
+    & .medium.line.line.line:after {
+        width: 50%;
+    }
+
+    & .short.line.line.line:after {
+        width: 65%;
+    }
+    
+    & .very.short.line.line.line:after {
+        width: 80%;
+    }
+    
+    .line {
+        position: relative;
+        height: .85714286em;
+        margin-bottom: .5em;
+    
+        &,
+        &:after,
+        & > :before {
+            background-color: var(--base-color);
+        }
+    
+        &:after,
+        &:before {
+            top: 100%;
+            position: absolute;
+            content: "";
+            background-color: inherit;
+            height: .5em;
+        }
+    
+        &:before {
+            left: 0;
+        }
+    
+        &:after {
+            right: 0;
+        }
+    
+        &:not(:first-child) {
+            margin-top: .5em;
+        }
+    
+        &:nth-child(1):after {
+            width: 0%;
+        }
+    
+        &:nth-child(2):after {
+            width: 50%;
+        }
+    
+        &:nth-child(3):after {
+            width: 10%;
+        }
+    
+        &:nth-child(4):after {
+            width: 35%;
+        }
+    
+        &:nth-child(5):after {
+            width: 65%;
+        }
+    }
+
+    .header {
+        position: relative;
+        overflow: hidden;
+    
+        &.line {
+            margin-bottom: .64285714em;
+        }
+    
+        &.line:after,
+        &.line:before {
+            height: .64285714em;
+        }
+    
+        &.line:not(:first-child) {
+            margin-top: .64285714em;
+        }
+    
+        &.line:after {
+            width: 20%;
+        }
+    
+        &.line:nth-child(2):after {
+            width: 60%;
+        }
+    
+        &.line:first-child {
+            height: .01px;
+        }
+    
+        &:not(:first-child):before {
+            height: 1.42857143em;
+            content: "";
+            display: block;
+        }
+    }
+
+    .image {
+        &.header .line {
+            margin-left: 3em;
+        }
+
+        &.header .line:before {
+            width: .71428571rem;
+        }
+
+        &.header:after {
+            display: block;
+            height: .85714286em;
+            content: "";
+            margin-left: 3em;
+        }
+    
+        &.line:first-child {
+            height: .01px;
+        }
+    
+        &:not(:first-child):before {
+            height: 1.42857143em;
+            content: "";
+            display: block;
+        }
+
+        &,
+        & .image.header:after,
+        &.image.header:after,
+        .image.header:after,
+        > :before {
+            background-color: var(--base-color);
+        }
+
+        &.square.image:not(.header),
+        & .square.image:not(.header) {
+            height: 0;
+            overflow: hidden;
+            padding-top: 100%;
+        }
+
+        &.rectangular.image:not(.header),
+        & .rectangular.image:not(.header) {
+            height: 0;
+            overflow: hidden;
+            padding-top: 75%;
+        }
+    }
+
+    .paragraph {
+        &.line:first-child {
+            height: .01px;
+        }
+    
+        &:not(:first-child):before {
+            height: 1.42857143em;
+            content: "";
+            display: block;
+        }
+    }
+}
